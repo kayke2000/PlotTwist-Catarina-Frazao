@@ -5,4 +5,4 @@ usuario_app = Blueprint('usuario_app', __name__, template_folder='templates')
 
 @usuario_app.route('/login', methods=['GET'])
 def autenticar():
-   
+   pass

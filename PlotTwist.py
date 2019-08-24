@@ -1,10 +1,10 @@
-from flask import FLask, request, render_template, redirect
+from flask import Flask, request, render_template, redirect
 
 app = Flask(__name__)
 
-@app.route('/', methods =['POST'])
+@app.route('/')
 def login():
-    pass
+    return render_template("login.html", title="Login")
 
 
 
