@@ -1,6 +1,6 @@
 @echo off
 
-set "VIRTUAL_ENV=C:\Users\1801013\PlotTwist-Catarina-Frazao\venv"
+set "VIRTUAL_ENV=C:\Users\Kayke\github\PlotTwist-Catarina-Frazao\venv"
 
 if defined _OLD_VIRTUAL_PROMPT (
     set "PROMPT=%_OLD_VIRTUAL_PROMPT%"
