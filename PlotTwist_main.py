@@ -1,22 +1,15 @@
 from flask import Flask, render_template, request, redirect, url_for, session
-from flask_mysqldb import MySQL
-import MySQLdb.cursors
-import re
+import mysql.connector
+
 
 app = Flask(__name__)
 
+app.secret_key = 'segredo'
 
-# Change this to your secret key (can be anything, it's for extra protection)
-app.secret_key = '1234'
-
-# Enter your database connection details below
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = '1234'
-app.config['MYSQL_DB'] = 'PlotTwist_CatarinaFrazao'
-
-# Intialize MySQL
-mysql = MySQL(app)
+connection = mysql.connector.connect(host='localhost',
+                                         database='PlotTwist_CatarinaFrazao',
+                                         user='root',
+                                         password='1234')
 
 # http://localhost:5000/CFLogin/
 @app.route('/CFLogin/', methods=['GET', 'POST'])
@@ -29,16 +22,16 @@ def login():
         username = request.form['username']
         password = request.form['password']
         # Check if account exists using MySQL
-        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute('SELECT * FROM accounts WHERE username = %s AND password = %s', (username, password))
+        cursor = connection.cursor(dictionary=True)
+        cursor.execute('SELECT * FROM Usuarios WHERE NomeUsuario = %s AND Senha = %s', (username, password))
         # Fetch one record and return result
         account = cursor.fetchone()
         # If account exists in accounts table in out database
         if account:
             # Create session data, we can access this data in other routes
             session['loggedin'] = True
-            session['id'] = account['id']
-            session['username'] = account['username']
+            session['id'] = account['IdUsuario']
+            session['username'] = account['NomeUsuario']
             # Redirect to home page
             return redirect(url_for('home'))
         else:
@@ -57,8 +50,8 @@ def logout():
    # Redirect to login page
    return redirect(url_for('login'))
 
-   # http://localhost:5000/pythinlogin/home - this will be the home page, only accessible for loggedin users
-@app.route('/CFLogin/home')
+# http://localhost:5000/pythinlogin/home - this will be the home page, only accessible for loggedin users
+@app.route('/pythonlogin/home')
 def home():
     # Check if user is loggedin
     if 'loggedin' in session:
@@ -66,7 +59,6 @@ def home():
         return render_template('home.html', username=session['username'])
     # User is not loggedin redirect to login page
     return redirect(url_for('login'))
-
 
 if __name__ == '__main__':
     app.run(host='localhost', port='8080', debug = True)
