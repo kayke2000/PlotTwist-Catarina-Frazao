@@ -51,7 +51,7 @@ def logout():
    return redirect(url_for('login'))
 
 # http://localhost:5000/pythinlogin/home - this will be the home page, only accessible for loggedin users
-@app.route('/pythonlogin/home')
+@app.route('/CFLogin/home')
 def home():
     # Check if user is loggedin
     if 'loggedin' in session:
