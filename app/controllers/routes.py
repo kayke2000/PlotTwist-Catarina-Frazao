@@ -1,11 +1,14 @@
 from app import app
+import mysql.connector
 
+from mysql.connector.errors import Error
 from flask import render_template, request
-
+from app.services import db
 from app.controllers import login
 from app.controllers import logout
 from app.controllers import home
 
+connection = db.db_connection()
 
 @app.route('/cadastro_produto/', methods=['GET', 'POST'])
 def cadastro_produto():

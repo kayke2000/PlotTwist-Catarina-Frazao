@@ -17,7 +17,7 @@ def index():
     return redirect(url_for('login'))
 
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login', methods=['GET', 'POST']) 
 def login():
     msg = ''
     if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
