@@ -2,7 +2,7 @@ from app import app
 import mysql.connector
 
 from mysql.connector.errors import Error
-from flask import render_template, request
+from flask import render_template, request, redirect, url_for, session
 from app.services import db
 from app.controllers import login
 from app.controllers import logout
@@ -10,14 +10,29 @@ from app.controllers import home
 
 connection = db.db_connection()
 
-@app.route('/cadastro_produto/', methods=['GET', 'POST'])
-def cadastro_produto():
-    return render_template('clientes.html')
+@app.route('/clientes')
+def cliente_inicio():
+    # Check if user is loggedin
+    if 'loggedin' in session:
+        return render_template('clientes.html',
+                               username=session['username'],
+                               loggedin=session['loggedin'],
+                               breadcrumb='Clientes',
+                               page_header='Menu de Navegação')
+    # User is not loggedin redirect to login page
+    return redirect(url_for('login'))
 
 
-@app.route('/criar_produto', methods=['POST', 'GET'])
-def criar_produto():
-    if request.method == 'POST' and 'descProduto' in request.form and 'marcaProduto' in request.form:
+@app.route('clientes/cadastro', methods=['POST', 'GET'])
+def redirecionar():
+    return render_template('clientes-cadastro.html')
+
+
+def cadastrar_cliente():
+    if request.method == 'POST' and 'nomeCliente' in request.form \
+                                and 'cpfCliente' in request.form \
+                                and 'celularCliente' in request.form \
+                                and 'emailCliente' in request.form:
         nomeCliente = request.form['nomeCliente']
         cpfCliente = request.form['cpfCliente']
         celularCliente = request.form['celularCliente']
@@ -28,10 +43,10 @@ def criar_produto():
             cursor.execute('INSERT INTO Produtos (Nome, CPF, Celular, Email) VALUES (%s, %s, %s, %s)', (nomeCliente, cpfCliente, celularCliente, emailCliente))
             connection.commit()
             msg = 'Cadastro realizado com sucesso!'
-            return render_template('cadastro-produtos.html', msg=msg)
+            return render_template('clientes-cadastro.html', msg=msg)
         except mysql.connector.Error as err:
             msg = 'Ops! Algo deu errado. Verifique as informações e tente novamente. Erro: {}'.format(err)
-            return render_template('cadastro-produtos.html', msg=msg)
+            return render_template('clientes-cadastro.html', msg=msg)
 
 # http://localhost:5000/python/logout - this will be the logout page
 
