@@ -9,7 +9,7 @@ def home():
         return render_template('home.html',
                                username=session['username'],
                                loggedin=session['loggedin'],
-                               breadcrumb='breadcrumb',
-                               page_header='page_header')
+                               breadcrumb='HOME',
+                               page_header='Painel de Navegação')
     # User is not loggedin redirect to login page
     return redirect(url_for('login'))
