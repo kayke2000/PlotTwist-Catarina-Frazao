@@ -1,12 +1,7 @@
 from app import app
-import mysql.connector
-
+from app.services import db
 from mysql.connector.errors import Error
 from flask import render_template, request, redirect, url_for, session
-from app.services import db
-from app.controllers import login
-from app.controllers import logout
-from app.controllers import home
 
 connection = db.db_connection()
 
@@ -23,7 +18,7 @@ def cliente_inicio():
     return redirect(url_for('login'))
 
 
-@app.route('clientes/cadastro', methods=['POST', 'GET'])
+@app.route('/cadastro', methods=['GET', 'POST'])
 def redirecionar():
     return render_template('clientes-cadastro.html')
 
@@ -40,15 +35,11 @@ def cadastrar_cliente():
 
         try:
             cursor = connection.cursor()
-            cursor.execute('INSERT INTO Produtos (Nome, CPF, Celular, Email) VALUES (%s, %s, %s, %s)', (nomeCliente, cpfCliente, celularCliente, emailCliente))
+            cursor.execute('INSERT INTO cliente (Nome, CPF, Celular, Email) VALUES (%s, %s, %s, %s)', (nomeCliente, cpfCliente, celularCliente, emailCliente))
             connection.commit()
             msg = 'Cadastro realizado com sucesso!'
             return render_template('clientes-cadastro.html', msg=msg)
         except mysql.connector.Error as err:
             msg = 'Ops! Algo deu errado. Verifique as informações e tente novamente. Erro: {}'.format(err)
             return render_template('clientes-cadastro.html', msg=msg)
-
-# http://localhost:5000/python/logout - this will be the logout page
-
-
 
