@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}Cadastro de Fornecedor{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <h1 class="display-4">Cadastro de Fornecedor</h1>
+    </div>
+    <div class="row">
+        <div class="col">
+            <form action="{{ url_for('criar_fornecedor') }}" method="post">
+                <div class="form-group">
+                    <label for="idFornecedor">Id</label>
+                    <input type="text" class="form-control" name="idFornecedor" id="idFornecedor" required disabled >
+                </div>
+                <div class="form-group">
+                    <label>Nome Fornecedor</label>
+                    <input type="text" class="form-control" name="Nome_Fornecedor" id="Nome_Fornecedor" placeholder="Nome do Fornecedor" required>
+                </div>
+                <div class="form-group">
+                    <label>CNPJ</label>
+                    <input type="text" class="form-control" name="CNPJ" id="CNPJ" placeholder="99.999.999/9999-99" required>
+                </div>
+                <div class="form-group">
+                    <label>Contato</label>
+                    <input type="text" class="form-control" name="Contato" id="Contato" placeholder="Telefone para contato" required>
+                </div>
+                <button type="submit"  class="btn btn-success">Salvar</button>
+            </form>
+
+            <br>
+
+            {% if msg %}
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+              <strong>{{ msg }}</strong>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
