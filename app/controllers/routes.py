@@ -10,7 +10,7 @@ from app.controllers import home
 
 connection = db.db_connection()
 
-@app.route('/cadastro_produto/', methods=['GET', 'POST'])
+@app.route('/cadastro_produto', methods=['GET', 'POST'])
 def cadastro_produto():
     return render_template('cadastro-produtos.html')
 

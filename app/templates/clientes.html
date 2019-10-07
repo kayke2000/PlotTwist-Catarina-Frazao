@@ -1,10 +1,10 @@
 {% extends 'base-template.html' %}
 
-{% block title %} Home {% endblock %}
+{% block title %} Clientes {% endblock %}
 
 {% if loggedin %} 
 
-{%block breadcrumb%}	
+{% block breadcrumb %}	
 
     {% if breadcrumb %}
     <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
@@ -17,9 +17,9 @@
         </ol>
     </div><!--/.row-->
     {% endif %} <!--/endif breadcrumb-->
-    {% endblock%}
+    {% endblock %}
 
-{%block page_header%}
+{% block page_header %}
 
     {% if page_header %}
     <div class="row">
@@ -31,16 +31,12 @@
 {% endblock %}
 
 {% block content %}
-    <h5>Large</h5>
-    <button type="button" class="btn btn-lg btn-primary">Primary</button>
-    <button type="button" class="btn btn-lg btn-default">Default</button>
-    <button type="button" class="btn btn-lg btn-success">Success</button>
-    <button type="button" class="btn btn-lg btn-info">Info</button>
-    <button type="button" class="btn btn-lg btn-warning">Warning</button>
-    <button type="button" class="btn btn-lg btn-danger">Danger</button>
-    <button type="button" class="btn btn-lg btn-link">Link</button>
-    <br />
-    <br />
+    <h5>O que deseja fazer?</h5>
+    <form action="{{ url_for('redirecionar') }}">
+    <button type="submit" class="btn btn-lg btn-primary">Cadastro</button>
+    <button type="submit" class="btn btn-lg btn-primary">Consulta</button>
+    <button type="submit" class="btn btn-lg btn-primary">Alteração</button>
+    </form>
 {% endblock %}
 
 {% endif %}
