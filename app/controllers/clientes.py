@@ -1,4 +1,5 @@
 from app import app
+import mysql.connector
 from app.services import db
 from mysql.connector.errors import Error
 from flask import render_template, request, redirect, url_for, session
@@ -20,9 +21,15 @@ def cliente_inicio():
 
 @app.route('/cadastro', methods=['GET', 'POST'])
 def redirecionar():
-    return render_template('clientes-cadastro.html')
+    if 'loggedin' in session:
+        return render_template('clientes-cadastro.html',
+                                username=session['username'],
+                                loggedin=session['loggedin'],
+                                breadcrumb='Cadastro Clientes',
+                                page_header='Menu de Cadastro')
+    return redirect(url_for('login'))
 
-
+@app.route('/cadastrar_cliente', methods=['GET', 'POST'])
 def cadastrar_cliente():
     if request.method == 'POST' and 'nomeCliente' in request.form \
                                 and 'cpfCliente' in request.form \
@@ -38,8 +45,8 @@ def cadastrar_cliente():
             cursor.execute('INSERT INTO cliente (Nome, CPF, Celular, Email) VALUES (%s, %s, %s, %s)', (nomeCliente, cpfCliente, celularCliente, emailCliente))
             connection.commit()
             msg = 'Cadastro realizado com sucesso!'
-            return render_template('clientes-cadastro.html', msg=msg)
+            return redirect(url_for('redirecionar'))
+
         except mysql.connector.Error as err:
             msg = 'Ops! Algo deu errado. Verifique as informações e tente novamente. Erro: {}'.format(err)
-            return render_template('clientes-cadastro.html', msg=msg)
-
+            return redirect(url_for('redirecionar'))

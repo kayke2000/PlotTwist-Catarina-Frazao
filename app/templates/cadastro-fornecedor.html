@@ -1,9 +1,36 @@
-{% extends 'base.html' %}
+{% extends 'base-template.html' %}
 
 {% block title %}Cadastro de Fornecedor{% endblock %}
 
-{% block content %}
+{% if loggedin %} 
 
+{% block breadcrumb %}	
+
+    {% if breadcrumb %}
+    <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+    <div class="row">
+        <ol class="breadcrumb">
+            <li><a href="#">
+                <em class="fa fa-home"></em>
+            </a></li>
+            <li class="active">{{breadcrumb}}</li>
+        </ol>
+    </div><!--/.row-->
+    {% endif %} <!--/endif breadcrumb-->
+    {% endblock %}
+
+{% block page_header %}
+
+    {% if page_header %}
+    <div class="row">
+        <div class="col-lg-12">
+            <h3 class="page-header">{{page_header}}</h3>
+        </div>
+    </div><!--/.row-->
+    {% endif %} <!--/endif page_header-->
+{% endblock %}
+
+{% block content %}
 <div class="container">
     <div class="row">
         <h1 class="display-4">Cadastro de Fornecedor</h1>
@@ -44,5 +71,6 @@
         </div>
     </div>
 </div>
-
 {% endblock %}
+
+{% endif %}
