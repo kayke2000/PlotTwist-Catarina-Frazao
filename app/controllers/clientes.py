@@ -44,7 +44,7 @@ def cadastrar_cliente():
             cursor.execute('INSERT INTO cliente (Nome, CPF, Celular, Email) VALUES (%s, %s, %s, %s)', (nomeCliente, cpfCliente, celularCliente, emailCliente))
             connection.commit()
             msg = 'Cadastro realizado com sucesso!'
-            return redirect(url_for('redirecionar')) #implantar msg
+            return redirect(url_for('redirecionar'))
         except mysql.connector.Error as err:
             msg = 'Ops! Algo deu errado. Verifique as informações e tente novamente. Erro: {}'.format(err)
             return render_template('clientes-cadastro.html', msg=msg)
